@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Faculty</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background: linear-gradient(to bottom, #87ceeb, #ffffff);
+            color: #436775;
+        }
+        .header-container {
+            padding: 20px;
+            text-align: left;
+            position: relative;
+            top: 10px;
+        }
+        .header-container h4 {
+            font-size: 45px;
+            margin-bottom: 5px;
+            margin-top: -10px;
+        }
+        .header-container img {
+            height: 90px;
+            width: auto;
+            margin-left: 10px;
+            margin-top: -10px;
+        }
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+            height: auto;
+            width: 800px;
+        }
+        .btn {
+            background-color: #5e90a4;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 2px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #87ceeb;
+        }
+        .nav-tabs .nav-link {
+            color: #5e90a4;
+        }
+        .nav-tabs .nav-link.active {
+            background-color: #5e90a4;
+            color: white;
+        }
+        .card-body {
+            padding: 20px;
+        }
+        .faculty-list-item {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="header-container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <h4>BHARATHIDASAN UNIVERSITY</h4>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 text-end">
+                <img src="/butp.png" alt="University Logo">
+            </div>
+        </div>
+    </div>
+
+    <div class="container p-3">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10 col-sm-12">
+                <div class="card">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" id="add-tab" data-bs-toggle="tab" href="#add" role="tab" aria-controls="add" aria-selected="true">Add Faculty</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="update-tab" data-bs-toggle="tab" href="#update" role="tab" aria-controls="update" aria-selected="false">Update Faculty</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="delete-tab" data-bs-toggle="tab" href="#delete" role="tab" aria-controls="delete" aria-selected="false">Delete Faculty</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="viewById-tab" data-bs-toggle="tab" href="#viewById" role="tab" aria-controls="viewById" aria-selected="false">View by ID</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="listAll-tab" data-bs-toggle="tab" href="#listAll" role="tab" aria-controls="listAll" aria-selected="false">List All</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <!-- Add Faculty Tab -->
+                        <div class="tab-pane fade show active" id="add" role="tabpanel" aria-labelledby="add-tab">
+                            <div class="card-body">
+                                <form id="addFacultyForm">
+                                    <div class="mb-3 row">
+                                        <label for="addFacultyName" class="col-sm-4 col-form-label"><strong>Faculty Name:</strong></label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="addFacultyName" placeholder="Enter faculty name" required>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 row">
+                                        <label for="addFacultyId" class="col-sm-4 col-form-label"><strong>Faculty ID:</strong></label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="addFacultyId" placeholder="Enter faculty ID" required>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 row">
+                                        <label for="addFacultyDept" class="col-sm-4 col-form-label"><strong>Department:</strong></label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="addFacultyDept" placeholder="Enter department" required>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-block mt-3">Add Faculty</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Update Faculty Tab -->
+                        <div class="tab-pane fade" id="update" role="tabpanel" aria-labelledby="update-tab">
+                            <div class="card-body">
+                                <form id="updateFacultyForm">
+                                    <div class="mb-3 row">
+                                        <label for="updateFacultyId" class="col-sm-4 col-form-label"><strong>Faculty ID:</strong></label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="updateFacultyId" placeholder="Enter faculty ID" required>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 row">
+                                        <label for="updateFacultyName" class="col-sm-4 col-form-label"><strong>New Faculty Name:</strong></label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="updateFacultyName" placeholder="Enter new faculty name" required>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 row">
+                                        <label for="updateFacultyDept" class="col-sm-4 col-form-label"><strong>New Department:</strong></label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="updateFacultyDept" placeholder="Enter new department" required>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-block mt-3">Update Faculty</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Delete Faculty Tab -->
+                        <div class="tab-pane fade" id="delete" role="tabpanel" aria-labelledby="delete-tab">
+                            <div class="card-body">
+                                <form id="deleteFacultyForm">
+                                    <div class="mb-3 row">
+                                        <label for="deleteFacultyId" class="col-sm-4 col-form-label"><strong>Faculty ID:</strong></label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="deleteFacultyId" placeholder="Enter faculty ID to delete" required>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-block mt-3">Delete Faculty</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- View Faculty by ID Tab -->
+                        <div class="tab-pane fade" id="viewById" role="tabpanel" aria-labelledby="viewById-tab">
+                            <div class="card-body">
+                                <form id="viewFacultyForm">
+                                    <div class="mb-3 row">
+                                        <label for="viewFacultyId" class="col-sm-4 col-form-label"><strong>Faculty ID:</strong></label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="viewFacultyId" placeholder="Enter faculty ID to view" required>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-block mt-3">View Faculty</button>
+                                </form>
+                                <div id="facultyDetails" class="mt-3"></div>
+                            </div>
+                        </div>
+
+                        <!-- List All Faculty Tab -->
+                        <div class="tab-pane fade" id="listAll" role="tabpanel" aria-labelledby="listAll-tab">
+                            <div class="card-body">
+                                <button id="listAllFaculty" class="btn btn-block">List All Faculty</button>
+                                <div id="facultyList" class="mt-3"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>// Add Faculty Form Submission
+document.getElementById('addFacultyForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const name = document.getElementById('addFacultyName').value;
+    const id = document.getElementById('addFacultyId').value;
+    const department = document.getElementById('addFacultyDept').value;
+
+    fetch('/api/faculty/add', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            id: id,
+            name: name,
+            department: department
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+        alert('Faculty added successfully.');
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to add faculty. Please try again.');
+    });
+});
+
+// Update Faculty Form Submission
+document.getElementById('updateFacultyForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const id = document.getElementById('updateFacultyId').value;
+    const name = document.getElementById('updateFacultyName').value;
+    const department = document.getElementById('updateFacultyDept').value;
+
+    fetch(`/api/faculty/update/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name: name,
+            department: department
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+        alert('Faculty updated successfully.');
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to update faculty. Please try again.');
+    });
+});
+
+// Delete Faculty Form Submission
+document.getElementById('deleteFacultyForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const id = document.getElementById('deleteFacultyId').value;
+
+    fetch(`/api/faculty/delete/${id}`, {
+        method: 'DELETE'
+    })
+    .then(() => {
+        alert('Faculty deleted successfully.');
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to delete faculty. Please try again.');
+    });
+});
+
+// View Faculty by ID Form Submission
+document.getElementById('viewFacultyForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const id = document.getElementById('viewFacultyId').value;
+
+    fetch(`/api/faculty/${id}`, {
+        method: 'GET'
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+        const facultyDetails = document.getElementById('facultyDetails');
+        if (data) {
+            facultyDetails.innerHTML = `
+                <h5>Faculty Details:</h5>
+                <p><strong>ID:</strong> ${data.id}</p>
+                <p><strong>Name:</strong> ${data.name}</p>
+                <p><strong>Department:</strong> ${data.department}</p>
+            `;
+        } else {
+            facultyDetails.innerHTML = '<p>No faculty found with this ID.</p>';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to retrieve faculty details. Please try again.');
+    });
+});
+
+// List All Faculty
+document.getElementById('listAllFaculty').addEventListener('click', function() {
+    fetch('/api/faculty/getAll')
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+        const facultyList = document.getElementById('facultyList');
+        if (data && data.length > 0) {
+            facultyList.innerHTML = data.map(faculty => `
+                <div class="faculty-list-item">
+                    <p><strong>ID:</strong> ${faculty.id}</p>
+                    <p><strong>Name:</strong> ${faculty.name}</p>
+                    <p><strong>Department:</strong> ${faculty.department}</p>
+                </div>
+            `).join('');
+        } else {
+            facultyList.innerHTML = '<p>No faculty members found.</p>';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to retrieve faculty list. Please try again.');
+    });
+});
+
+</script>
+</body>
+</html>

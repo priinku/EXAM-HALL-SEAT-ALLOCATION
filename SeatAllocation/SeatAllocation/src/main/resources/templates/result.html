@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Allocation Result</title>
+</head>
+<body>
+<h1>Allocation Result</h1>
+<ul>
+    <li th:each="reservation : ${reservations}">
+        <span th:text="${reservation.subject}"></span>
+        <!-- Add other reservation details here -->
+    </li>
+</ul>
+</body>
+</html>

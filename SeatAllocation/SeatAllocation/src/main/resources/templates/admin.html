@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <meta name="_csrf" content="${_csrf.token}" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background: linear-gradient(to bottom, #87ceeb, #ffffff);
+            color: #436775;
+        }
+        .header-container {
+            padding: 20px;
+            text-align: left;
+            position: relative;
+            top: 10px;
+        }
+        .header-container h4 {
+            font-size: 45px;
+            margin-bottom: 5px;
+            margin-top: -10px;
+        }
+        .header-container img {
+            height: 90px;
+            width: auto;
+            margin-left: 10px;
+            margin-top: -10px;
+        }
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .card-container {
+    display: flex;
+    justify-content: center; /* Center the card horizontally */
+    padding-left: 0; /* Remove left padding */
+    padding-right: 0; /* Remove right padding */
+}
+
+.card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 30px;
+    margin-bottom: 20px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    height: auto; /* Adjust height to fit content */
+    width: 100%; /* Ensure card takes full width of container */
+    max-width: 800px; /* Set max width for card */
+    overflow: hidden; /* Hide overflow content */
+}
+
+        .btn {
+            background-color: #5e90a4;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 2px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #87ceeb;
+        }
+        .tabs {
+            margin-bottom: 20px;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .tab-buttons {
+            margin-bottom: 20px;
+        }
+        .tab-buttons button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #5e90a4;
+            color: white;
+            cursor: pointer;
+            margin-right: 5px;
+            border-radius: 5px;
+        }
+        .tab-buttons button.active {
+            background-color: #87ceeb;
+        }
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding-right: 20px;
+        }
+        .sidebar-option {
+            text-align: center;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+        .sidebar-option img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+        }
+        .sidebar-option:hover {
+            color: #5e90a4;
+        }
+        .reservation-section {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+        .reservation-section h5 {
+            margin-bottom: 20px;
+        }
+        .reservation-section table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .reservation-section th, .reservation-section td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .reservation-section th {
+            background-color: #5e90a4;
+            color: white;
+        }
+        .reservation-section tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        /* Modal styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            padding-top: 60px; /* Location of the box */
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+            border-radius: 8px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="header-container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <h4>BHARATHIDASAN UNIVERSITY</h4>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 text-end">
+                <img src="/butp.png" alt="University Logo">
+            </div>
+        </div>
+    </div>
+
+    <div class="container p-3">
+        <div class="row justify-content-center">
+            <div class="card-container">
+                <div class="col-lg-6 col-md-8 col-sm-10">
+                    <div class="card">
+                        <div class="card-header text-center text-white" style="background-color: #5e90a4;">
+                            Welcome Admin!
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-4 sidebar">
+                                    <div class="sidebar-option">
+                                        <a href="/v1/faculty">
+                                            <img src="/lecturer.png" alt="Faculty Icon" style="width: 50px; height: 50px;">
+                                        </a>
+                                        <p>Faculty</p>
+                                    </div>
+                                    <div class="sidebar-option">
+                                        <a href="/v1/hall">
+                                            <img src="/examhall.png" alt="Hall Icon" style="width: 50px; height: 50px;">
+                                        </a>
+                                        <p>Hall</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-8">
+                                    <div class="tabs">
+                                        <div class="tab-buttons">
+                                            <button id="allocationTab" class="active">Allocation</button>
+                                            <button id="viewSlotsTab">View Reserved Slots</button>
+                                            <button id="allocateFacultyTab">Allot Faculty</button>
+                                        </div>
+                                        <div id="allocationContent" class="tab-content active">
+                                            <form id="allocationForm">
+                                                <div class="mb-3 row">
+                                                    <label for="subjectCode" class="col-sm-4 col-form-label"><strong>Subject Code:</strong></label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" class="form-control" id="subjectCode" placeholder="Enter subject code" required>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row">
+                                                    <label for="numStudents" class="col-sm-4 col-form-label"><strong>No. of Students:</strong></label>
+                                                    <div class="col-sm-8">
+                                                        <input type="number" class="form-control" id="numStudents" placeholder="Enter number of students" required>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row">
+                                                    <label for="session" class="col-sm-4 col-form-label"><strong>Session:</strong></label>
+                                                    <div class="col-sm-8">
+                                                        <select class="form-control" id="session" required>
+                                                            <option value="" disabled selected>Select session</option>
+                                                            <option value="FN">FN</option>
+                                                            <option value="AN">AN</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row">
+                                                    <label for="date" class="col-sm-4 col-form-label"><strong>Date:</strong></label>
+                                                    <div class="col-sm-8">
+                                                        <input type="date" class="form-control" id="date" required>
+                                                    </div>
+                                                </div>
+                                                <button type="submit" class="btn btn-block mt-3">Allocate Seats</button>
+                                            </form>
+                                            <button id="logoutButton" class="btn btn-block mt-3">Logout</button>
+
+                                        </div>
+                                        <div id="viewSlotsContent" class="tab-content">
+                                            <form id="viewSlotsForm">
+                                                <div class="mb-3 row">
+                                                    <label for="viewSubjectCode" class="col-sm-4 col-form-label"><strong>Subject Code:</strong></label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" class="form-control" id="viewSubjectCode" placeholder="Enter subject code" required>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row">
+                                                    <label for="viewDate" class="col-sm-4 col-form-label"><strong>Date:</strong></label>
+                                                    <div class="col-sm-8">
+                                                        <input type="date" class="form-control" id="viewDate" required>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row">
+                                                    <label for="viewSession" class="col-sm-4 col-form-label"><strong>Session:</strong></label>
+                                                    <div class="col-sm-8">
+                                                        <select class="form-control" id="viewSession" required>
+                                                            <option value="" disabled selected>Select session</option>
+                                                            <option value="FN">FN</option>
+                                                            <option value="AN">AN</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <button type="submit" class="btn btn-block mt-3">View Reserved Slots</button>
+                                            </form>
+                                        </div>
+                                        <div id="allocateFacultyContent" class="tab-content">
+                                            <form id="allocateFacultyForm">
+                                                <div class="mb-3 row">
+                                                    <label for="date" class="col-sm-4 col-form-label"><strong>Date:</strong></label>
+                                                    <div class="col-sm-8">
+                                                        <input type="date" class="form-control" id="facultydate" required>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row">
+                                                    <label for="session" class="col-sm-4 col-form-label"><strong>Session:</strong></label>
+                                                    <div class="col-sm-8">
+                                                        <select class="form-control" id="facultysession" required>
+                                                            <option value="" disabled selected>Select session</option>
+                                                            <option value="FN">FN</option>
+                                                            <option value="AN">AN</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="text-center">
+                                                    <button type="submit" id="allotFacultyButton" class="btn btn-block mt-3">Allocate Faculty</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for displaying reservation results -->
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeModal">&times;</span>
+        <div class="reservation-section">
+            <h5>Reservation Details</h5>
+            <table>
+                <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Hall ID</th>
+                    <th>Row Number</th>
+                    <th>Slot Number</th>
+                    <th>Exam</th>
+                    <th>Session</th>
+                    <th>Date</th>
+                </tr>
+                </thead>
+                <tbody id="modalTableBody">
+                <!-- Reservations will be populated here -->
+                </tbody>
+            </table>
+            <button id="downloadReservationsPDF" class="btn btn-block mt-3" style="float: right;">Download</button>
+        </div>
+    </div>
+</div>
+
+<div id="facultymodal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="facultycloseModal">&times;</span>
+        <div class="reservation-section">
+            <h5>Faculty Assignments</h5>
+            <table>
+                <thead>
+                <tr>
+                    <th>Faculty Name</th>
+                    <th>Hall Name</th>
+                    <th>Date</th>
+                    <th>Session</th>
+                </tr>
+                </thead>
+                <tbody id="facultymodalTableBody">
+                <!-- Assignments will be populated here -->
+                </tbody>
+            </table>
+            <button id="downloadFacultyAssignmentsPDF" class="btn btn-block mt-3" style="float: right;">Download</button>
+
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS (must be included after Bootstrap CSS) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.21/jspdf.plugin.autotable.min.js"></script>
+
+<script>
+    // Tab switching logic
+    document.getElementById('allocationTab').addEventListener('click', function() {
+        document.getElementById('allocationContent').classList.add('active');
+        document.getElementById('viewSlotsContent').classList.remove('active');
+        document.getElementById('allocateFacultyContent').classList.remove('active');
+        this.classList.add('active');
+        document.getElementById('viewSlotsTab').classList.remove('active');
+        document.getElementById('allocateFacultyTab').classList.remove('active');
+    });
+
+    document.getElementById('viewSlotsTab').addEventListener('click', function() {
+        document.getElementById('viewSlotsContent').classList.add('active');
+        document.getElementById('allocationContent').classList.remove('active');
+        document.getElementById('allocateFacultyContent').classList.remove('active');
+        this.classList.add('active');
+        document.getElementById('allocationTab').classList.remove('active');
+        document.getElementById('allocateFacultyTab').classList.remove('active');
+    });
+
+    document.getElementById('allocateFacultyTab').addEventListener('click', function() {
+        document.getElementById('allocateFacultyContent').classList.add('active');
+        document.getElementById('allocationContent').classList.remove('active');
+        document.getElementById('viewSlotsContent').classList.remove('active');
+        this.classList.add('active');
+        document.getElementById('allocationTab').classList.remove('active');
+        document.getElementById('viewSlotsTab').classList.remove('active');
+    });
+
+
+    // Allocation form submission
+    document.getElementById('allocationForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const subject = document.getElementById('subjectCode').value;
+        const numberOfStudents = document.getElementById('numStudents').value;
+        const session = document.getElementById('session').value;
+        const date = document.getElementById('date').value;
+
+        // Disable button and show loading state
+        const allocateButton = document.querySelector('#allocationForm button[type="submit"]');
+        allocateButton.disabled = true;
+        allocateButton.innerText = 'Allocating...';
+
+        fetch('/api/allocate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                subject: subject,
+                session: session,
+                date: date,
+                numberOfStudents: numberOfStudents
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+
+            // Populate the reservation table in the modal
+            const modalTableBody = document.getElementById('modalTableBody');
+            modalTableBody.innerHTML = ''; // Clear any existing content
+
+            data.forEach(reservation => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${reservation.student}</td>
+                    <td>${reservation.hallId}</td>
+                    <td>${reservation.rowNumber}</td>
+                    <td>${reservation.slotNumber}</td>
+                    <td>${reservation.exam}</td>
+                    <td>${reservation.session}</td>
+                    <td>${reservation.reservationDate}</td>
+                `;
+                modalTableBody.appendChild(row);
+            });
+
+            // Display the modal
+            document.getElementById('modal').style.display = 'block';
+
+            // Re-enable the button after 5 seconds
+            setTimeout(() => {
+                allocateButton.disabled = false;
+                allocateButton.innerText = 'Allocate Seats';
+            }, 5000);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Failed to allocate seats. Please try again.');
+
+            // Re-enable the button in case of error
+            allocateButton.disabled = false;
+            allocateButton.innerText = 'Allocate Seats';
+        });
+    });
+
+    // View Reserved Slots form submission
+    document.getElementById('viewSlotsForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const subject = document.getElementById('viewSubjectCode').value;
+    const date = document.getElementById('viewDate').value;
+    const session = document.getElementById('viewSession').value;
+
+    // Disable button and show loading state
+    const viewSlotsButton = document.querySelector('#viewSlotsForm button[type="submit"]');
+    viewSlotsButton.disabled = true;
+    viewSlotsButton.innerText = 'Loading...';
+
+    // Construct the query string
+    const queryString = new URLSearchParams({
+        exam: subject,
+        session: session,
+        reservation_date: date
+    }).toString();
+
+    fetch(`/api/viewSlots?${queryString}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Success:', data);
+
+            const modalTableBody = document.getElementById('modalTableBody');
+            modalTableBody.innerHTML = ''; // Clear any existing content
+
+        data.forEach(reservation => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${reservation.student}</td>
+                <td>${reservation.hallId}</td>
+                <td>${reservation.rowNumber}</td>
+                <td>${reservation.slotNumber}</td>
+                <td>${reservation.exam}</td>
+                <td>${reservation.session}</td>
+                <td>${reservation.reservationDate}</td>
+            `;
+            modalTableBody.appendChild(row);
+        });
+
+        // Display the modal
+            document.getElementById('modal').style.display = 'block';
+
+        // Re-enable the button after 5 seconds
+        setTimeout(() => {
+                allocateButton.disabled = false;
+                allocateButton.innerText = 'Allocate Seats';
+        }, 5000);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to fetch reserved slots. Please try again.');
+
+        // Re-enable the button in case of error
+        viewSlotsButton.disabled = false;
+        viewSlotsButton.innerText = 'View Reserved Slots';
+    });
+});
+         document.getElementById('allocateFacultyForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const date = document.getElementById('facultydate').value;
+            const session = document.getElementById('facultysession').value;
+
+            // Disable button and show loading state
+            const allocateButton = document.getElementById('allotFacultyButton');
+            allocateButton.disabled = true;
+            allocateButton.innerText = 'Loading...';
+
+            // Construct the query string
+            const queryString = new URLSearchParams({
+                date: date,
+                session: session
+            }).toString();
+
+            fetch(`/api/faculty/allot?${queryString}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Success:', data);
+
+                const modalTableBody = document.getElementById('facultymodalTableBody');
+                modalTableBody.innerHTML = ''; // Clear any existing content
+
+                data.forEach(assignment => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${assignment.faculty.name}</td>
+                        <td>${assignment.hall}</td>
+                        <td>${assignment.date}</td>
+                        <td>${assignment.session}</td>
+                    `;
+                    modalTableBody.appendChild(row);
+                });
+
+                // Display the modal
+                document.getElementById('facultymodal').style.display = 'block';
+
+                // Re-enable the button after 5 seconds
+                setTimeout(() => {
+                    allocateButton.disabled = false;
+                    allocateButton.innerText = 'Allocate Faculty';
+                }, 5000);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to fetch faculty assignments. Please try again.');
+
+                // Re-enable the button in case of error
+                allocateButton.disabled = false;
+                allocateButton.innerText = 'Allocate Faculty';
+            });
+        });
+
+    // Close the modal
+    document.getElementById('closeModal').addEventListener('click', function() {
+        document.getElementById('modal').style.display = 'none';
+    });
+
+    // Close the modal when clicking outside of it
+    window.addEventListener('click', function(event) {
+        if (event.target == document.getElementById('modal')) {
+            document.getElementById('modal').style.display = 'none';
+        }
+    });
+
+     // Close the modal
+    document.getElementById('facultycloseModal').addEventListener('click', function() {
+        document.getElementById('facultymodal').style.display = 'none';
+    });
+
+    // Close the modal when clicking outside of it
+    window.addEventListener('facultyclick', function(event) {
+        if (event.target == document.getElementById('facultymodal')) {
+            document.getElementById('facultymodal').style.display = 'none';
+        }
+    });
+
+    // Logout button event
+document.getElementById('logoutButton').addEventListener('click', function() {
+            const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+            fetch('/custom-logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRF-TOKEN': csrfToken
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '/login?logout=true'; // Redirect to login page after successful logout
+                } else {
+                    throw new Error('Logout failed.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert(error.message);
+            });
+        });
+
+document.getElementById('downloadReservationsPDF').addEventListener('click', function() {
+    generatePDF('modalTableBody', 'Reservation Details', [
+        'Student', 'Hall ID', 'Row Number', 'Slot Number', 'Exam', 'Session', 'Date'
+    ]);
+});
+
+document.getElementById('downloadFacultyAssignmentsPDF').addEventListener('click', function() {
+    generatePDF('facultymodalTableBody', 'Faculty Assignments', [
+        'Faculty Name', 'Hall Name', 'Date', 'Session'
+    ]);
+});
+
+function generatePDF(tableBodyId, title, headers) {
+    const { jsPDF } = window.jspdf;
+    const { autoTable } = window.jspdf;
+
+    const doc = new jsPDF();
+
+    // Add Title
+    doc.setFontSize(18);
+    doc.text(title, 14, 20);
+
+    // Prepare table data
+    const table = document.getElementById(tableBodyId);
+    const rows = table.getElementsByTagName('tr');
+    const data = [];
+
+    // Add table rows
+    for (let i = 0; i < rows.length; i++) {
+        const cells = rows[i].getElementsByTagName('td');
+        const row = [];
+        for (let j = 0; j < cells.length; j++) {
+            row.push(cells[j].innerText);
+        }
+        data.push(row);
+    }
+
+    // Add table to PDF
+    doc.autoTable({
+        head: [headers],
+        body: data,
+        startY: 30, // Start Y position for the table
+        theme: 'striped', // Optional: Add striped rows
+        headStyles: { fillColor: [22, 160, 133] }, // Optional: Customize header color
+        styles: { fontSize: 12 }, // Optional: Customize font size
+    });
+
+    // Save the PDF
+    doc.save(`${title}.pdf`);
+}
+</script>
+</body>
+</html>

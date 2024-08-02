@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Seat Allocation</title>
+</head>
+<body>
+<h1>Allocate Seats</h1>
+<form action="#" th:action="@{/allocate}" th:object="${allocationForm}" method="post">
+    <label>Subject Code: <input type="text" name="subject" /></label><br/>
+    <label>Number of Students: <input type="number" name="numberOfStudents" /></label><br/>
+    <label>Session (FN/AN): <input type="text" name="session" /></label><br/>
+    <label>Date (yyyy-mm-dd): <input type="text" name="date" /></label><br/>
+    <button type="submit">Allocate</button>
+</form>
+</body>
+</html>

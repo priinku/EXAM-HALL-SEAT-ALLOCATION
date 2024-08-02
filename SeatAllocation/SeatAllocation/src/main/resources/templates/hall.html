@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Hall</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background: linear-gradient(to bottom, #87ceeb, #ffffff);
+            color: #436775;
+        }
+        .header-container {
+            padding: 20px;
+            text-align: left;
+            position: relative;
+            top: 10px;
+        }
+        .header-container h4 {
+            font-size: 45px;
+            margin-bottom: 5px;
+            margin-top: -10px;
+        }
+        .header-container img {
+            height: 90px;
+            width: auto;
+            margin-left: 10px;
+            margin-top: -10px;
+        }
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+            height: auto;
+            width: 800px;
+        }
+        .btn {
+            background-color: #5e90a4;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 2px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #87ceeb;
+        }
+        .nav-tabs .nav-link {
+            color: #5e90a4;
+        }
+        .nav-tabs .nav-link.active {
+            background-color: #5e90a4;
+            color: white;
+        }
+        .card-body {
+            padding: 20px;
+        }
+        .btn:hover {
+            background-color: #87ceeb;
+        }
+        .tab-content {
+            padding: 20px;
+        }
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding-right: 20px;
+        }
+        .sidebar-option {
+            text-align: center;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+        .sidebar-option img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+        }
+        .sidebar-option:hover {
+            color: #5e90a4;
+        }
+        .additional-options {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 120px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+        .sidebar-option:hover .additional-options {
+            display: block;
+        }
+        .additional-options a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        .additional-options a:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="header-container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <h4>BHARATHIDASAN UNIVERSITY</h4>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 text-end">
+                <img src="/butp.png" alt="University Logo">
+            </div>
+        </div>
+    </div>
+
+    <div class="container p-3">
+        <div class="row justify-content-center">
+            <div class="card">
+                <div class="card-header text-center text-white" style="background-color: #5e90a4;">
+                    Manage Hall
+                </div>
+                <ul class="nav nav-tabs" id="myTab" role="tablist" style="padding: 10px;">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="add-tab" data-bs-toggle="tab" href="#add" role="tab" aria-controls="add" aria-selected="true">Add</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="update-tab" data-bs-toggle="tab" href="#update" role="tab" aria-controls="update" aria-selected="false">Update</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="delete-tab" data-bs-toggle="tab" href="#delete" role="tab" aria-controls="delete" aria-selected="false">Delete</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="view-tab" data-bs-toggle="tab" href="#view" role="tab" aria-controls="view" aria-selected="false">View</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="view-all-tab" data-bs-toggle="tab" href="#view-all" role="tab" aria-controls="view-all" aria-selected="false">View All</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="slots-tab" data-bs-toggle="tab" href="#slots" role="tab" aria-controls="slots" aria-selected="false">Slots</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <!-- Add Form -->
+                    <div class="tab-pane fade show active" id="add" role="tabpanel" aria-labelledby="add-tab">
+                        <form id="addHallForm">
+                            <div class="mb-3 row">
+                                <label for="hallId" class="col-sm-4 col-form-label"><strong>Hall ID:</strong></label>
+                                <div class="col-sm-8">
+                                    <input type="number" class="form-control" id="hallId" placeholder="Enter hall ID" required>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="hallName" class="col-sm-4 col-form-label"><strong>Hall Name:</strong></label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="hallName" placeholder="Enter hall name" required>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="hallRows" class="col-sm-4 col-form-label"><strong>Rows:</strong></label>
+                                <div class="col-sm-8">
+                                    <input type="number" class="form-control" id="hallRows" placeholder="Enter number of rows" required>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="benchesPerRow" class="col-sm-4 col-form-label"><strong>Benches per Row:</strong></label>
+                                <div class="col-sm-8">
+                                    <input type="number" class="form-control" id="benchesPerRow" placeholder="Enter benches per row" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block mt-3">Add Hall</button>
+                        </form>
+                    </div>
+
+                    <!-- Update Form -->
+                    <div class="tab-pane fade" id="update" role="tabpanel" aria-labelledby="update-tab">
+                        <form id="updateHallForm">
+                            <div class="mb-3 row">
+                                <label for="updateHallId" class="col-sm-4 col-form-label"><strong>Hall ID:</strong></label>
+                                <div class="col-sm-8">
+                                    <input type="number" class="form-control" id="updateHallId" placeholder="Enter hall ID to update" required>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="updateHallName" class="col-sm-4 col-form-label"><strong>New Hall Name:</strong></label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="updateHallName" placeholder="Enter new hall name" required>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="updateHallRows" class="col-sm-4 col-form-label"><strong>New Rows:</strong></label>
+                                <div class="col-sm-8">
+                                    <input type="number" class="form-control" id="updateHallRows" placeholder="Enter new number of rows" required>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="updateBenchesPerRow" class="col-sm-4 col-form-label"><strong>New Benches per Row:</strong></label>
+                                <div class="col-sm-8">
+                                    <input type="number" class="form-control" id="updateBenchesPerRow" placeholder="Enter new benches per row" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block mt-3">Update Hall</button>
+                        </form>
+                    </div>
+
+                    <!-- Delete Form -->
+                    <div class="tab-pane fade" id="delete" role="tabpanel" aria-labelledby="delete-tab">
+                        <form id="deleteHallForm">
+                            <div class="mb-3 row">
+                                <label for="deleteHallId" class="col-sm-4 col-form-label"><strong>Hall ID:</strong></label>
+                                <div class="col-sm-8">
+                                    <input type="number" class="form-control" id="deleteHallId" placeholder="Enter hall ID to delete" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-danger btn-block mt-3">Delete Hall</button>
+                        </form>
+                    </div>
+
+                    <!-- View Form -->
+                    <div class="tab-pane fade" id="view" role="tabpanel" aria-labelledby="view-tab">
+                        <form id="viewHallForm">
+                            <div class="mb-3 row">
+                                <label for="viewHallId" class="col-sm-4 col-form-label"><strong>Hall ID:</strong></label>
+                                <div class="col-sm-8">
+                                    <input type="number" class="form-control" id="viewHallId" placeholder="Enter hall ID to view" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block mt-3">View Hall</button>
+                        </form>
+                        <div id="hallDetails" class="mt-3">
+                            <!-- Hall details will be displayed here -->
+                        </div>
+                    </div>
+
+                    <!-- View All Form -->
+                    <div class="tab-pane fade" id="view-all" role="tabpanel" aria-labelledby="view-all-tab">
+                        <button id="viewAllHallsBtn" class="btn btn-primary btn-block mt-3">View All Halls</button>
+                        <div id="allHalls" class="mt-3">
+                            <!-- All halls will be displayed here -->
+                        </div>
+                    </div>
+
+                    <!-- Slots Form -->
+                    <div class="tab-pane fade" id="slots" role="tabpanel" aria-labelledby="slots-tab">
+                        <form id="slotsForm">
+                            <div class="mb-3 row">
+                                <label for="hallIdSlots" class="col-sm-4 col-form-label"><strong>Hall ID:</strong></label>
+                                <div class="col-sm-8">
+                                    <input type="number" class="form-control" id="hallIdSlots" placeholder="Enter hall ID" required>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="dateSlots" class="col-sm-4 col-form-label"><strong>Date:</strong></label>
+                                <div class="col-sm-8">
+                                    <input type="date" class="form-control" id="dateSlots" required>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="sessionSlots" class="col-sm-4 col-form-label"><strong>Session:</strong></label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" id="sessionSlots" required>
+                                        <option value="" disabled selected>Select session</option>
+                                        <option value="FN">FN</option>
+                                        <option value="AN">AN</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block mt-3">View Slots</button>
+                        </form>
+                        <div id="slotsDetails" class="mt-3">
+                            <!-- Slots details will be displayed here -->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.getElementById('addHallForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const id = document.getElementById('hallId').value;
+                const name = document.getElementById('hallName').value;
+                console.log(name);
+                const rows = document.getElementById('hallRows').value;
+                const benchesPerRow = document.getElementById('benchesPerRow').value;
+
+                fetch('/api/hall/addHall', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        id: id,
+                        hallName: name,
+                        rows: rows,
+                        benchesPerRow: benchesPerRow
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert('Hall added successfully.');
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to add hall. Please try again.');
+                });
+            });
+
+            // Update Hall Form Submission
+            document.getElementById('updateHallForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const id = document.getElementById('updateHallId').value;
+                const name = document.getElementById('updateHallName').value;
+                const rows = document.getElementById('updateHallRows').value;
+                const benchesPerRow = document.getElementById('updateBenchesPerRow').value;
+
+                fetch(`/api/hall/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        hallId: id,
+                        hallName: name,
+                        rows: rows,
+                        benchesPerRow: benchesPerRow
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert('Hall updated successfully.');
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to update hall. Please try again.');
+                });
+            });
+
+            // Delete Hall Form Submission
+            document.getElementById('deleteHallForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const id = document.getElementById('deleteHallId').value;
+
+                fetch(`/api/hall/${id}`, {
+                    method: 'DELETE'
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Hall deleted successfully.');
+                    } else {
+                        alert('Failed to delete hall. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to delete hall. Please try again.');
+                });
+            });
+
+            // View Hall Form Submission
+            document.getElementById('viewHallForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const id = document.getElementById('viewHallId').value;
+
+                fetch(`/api/hall/${id}`)
+                .then(response => response.json())
+                .then(data => {
+                console.log(data);
+                    const details = document.getElementById('hallDetails');
+                    if (data) {
+                        details.innerHTML = `
+                            <p><strong>Hall Name:</strong> ${data.hallName}</p>
+                            <p><strong>Hall ID:</strong> ${data.hallId}</p>
+                            <p><strong>Rows:</strong> ${data.rows}</p>
+                            <p><strong>Benches per Row:</strong> ${data.benchesPerRow}</p>
+                            <p><strong>Total Benches:</strong> ${data.totalBench}</p>
+                        `;
+                    } else {
+                        details.innerHTML = '<p>No hall found with this ID.</p>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to fetch hall details. Please try again.');
+                });
+            });
+    // View All Halls Button Click
+document.getElementById('viewAllHallsBtn').addEventListener('click', function() {
+    fetch('/api/hall/viewAllHall')
+        .then(response => response.json())
+        .then(data => {
+            const allHalls = document.getElementById('allHalls');
+            if (data.length > 0) {
+                allHalls.innerHTML = `
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Hall ID</th>
+                                <th>Hall Name</th>
+                                <th>Rows</th>
+                                <th>Benches per Row</th>
+                                <th>Total Benches</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${data.map(hall => `
+                                <tr>
+                                    <td>${hall.hallId}</td>
+                                    <td>${hall.hallName}</td>
+                                    <td>${hall.rows}</td>
+                                    <td>${hall.benchesPerRow}</td>
+                                    <td>${hall.totalBench}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            } else {
+                allHalls.innerHTML = '<p>No halls found.</p>';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Failed to fetch halls. Please try again.');
+        });
+});
+    document.getElementById('slotsForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const hallId = document.getElementById('hallIdSlots').value;
+        const date = document.getElementById('dateSlots').value;
+        const session = document.getElementById('sessionSlots').value;
+
+        fetch(`/api/hall/slots?hallId=${hallId}&date=${date}&session=${session}`)
+            .then(response => response.json())
+            .then(data => {
+                const slotsDetails = document.getElementById('slotsDetails');
+                if (data) {
+                    slotsDetails.innerHTML = `
+                        <p><strong>Available Slots:</strong> ${data.availableSlots}</p>
+                        <p><strong>Reserved Slots:</strong> ${data.reservedSlots}</p>
+                        <p><strong>Total Slots:</strong> ${data.totalSlots}</p>
+                    `;
+                } else {
+                    slotsDetails.innerHTML = '<p>No slots found for the given criteria.</p>';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to fetch slots details. Please try again.');
+            });
+    });
+
+</script>
+</body>
+</html>
